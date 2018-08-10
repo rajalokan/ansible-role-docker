@@ -13,19 +13,19 @@ info_block "Bootstraping docker role"
 ansible_roles_path="${HOME}/.ansible/roles"
 mkdir -p ${ansible_roles_path}
 
-dotfiles_path="${ansible_roles_path}/docker"
-dotfiles_repo="https://github.com/rajalokan/ansible-role-docker"
+role_path="${ansible_roles_path}/docker"
+repo="https://github.com/rajalokan/ansible_role_docker.git"
 
 # Ensure git is installed
 is_package_installed git || install_package git
 
-if [[ ! -d ${dotfiles_path} ]]; then
-    git clone ${dotfiles_repo} ${dotfiles_path}
+if [[ ! -d ${role_path} ]]; then
+    git clone ${repo} ${role_path}
 fi
 
 # Ensure latest ansible is installed
 is_package_installed ansible || info_block "ansible not installed. Exiting"
 
-pushd ${dotfiles_path} >/dev/null
+pushd ${role_path} >/dev/null
     ansible-playbook -i "localhost," -c local playbook.yaml
 popd
